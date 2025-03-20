@@ -1,0 +1,29 @@
+Julia version 1.9.4 at location /root/.local/share/R/JuliaCall/julia/1.9.4/julia-1.9.4/bin will be used.
+Loading setup script for JuliaCall...
+Finish loading setup script for JuliaCall.
+[1] FALSE FALSE  TRUE
+class       : SpatRaster 
+dimensions  : 90, 95, 1  (nrow, ncol, nlyr)
+resolution  : 0.008333333, 0.008333333  (x, y)
+extent      : 5.741667, 6.533333, 49.44167, 50.19167  (xmin, xmax, ymin, ymax)
+coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+source      : elev.tif 
+name        : elevation 
+min value   :       141 
+max value   :       547 
+NULL
+[ Info: 2025-03-20 16:32:12 : Precision used: Double
+┌ Info: 2025-03-20 16:32:14 : Circuitscape.jl starts counting nodes from 1, 
+└ not 0. This will be reflected in the outputs.
+[ Info: 2025-03-20 16:32:15 : Graph has 4 nodes and 1 connected components
+[ Info: 2025-03-20 16:32:15 : Time taken to construct graph laplacian = 0.045825638
+[ Info: 2025-03-20 16:32:15 : Solver used: AMG accelerated by CG
+[ Info: 2025-03-20 16:32:18 : Time taken to construct preconditioner = 0.437926353 seconds
+[ Info: 2025-03-20 16:32:18 : Time taken to solve linear system = 2.993e-5 seconds
+[ Info: 2025-03-20 16:32:19 : Time taken to complete job = 6.392081722
+     [,1] [,2]
+[1,]    1   75
+[2,]    2   50
+[3,]    3    0
+[4,]    4   25
+Julia exit.

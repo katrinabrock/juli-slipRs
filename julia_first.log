@@ -1,0 +1,22 @@
+Julia version 1.9.4 at location /root/.local/share/R/JuliaCall/julia/1.9.4/julia-1.9.4/bin will be used.
+Loading setup script for JuliaCall...
+Finish loading setup script for JuliaCall.
+Error: Error happens in Julia.
+InitError: could not load library "/root/.julia/artifacts/94430821ebeeac5f4e438c79b541c0e5408e74de/lib/libgdal.so"
+/usr/lib/x86_64-linux-gnu/libtiff.so.6: version `LIBTIFF_4.6.1' not found (required by /root/.julia/artifacts/94430821ebeeac5f4e438c79b541c0e5408e74de/lib/libgdal.so)
+Stacktrace:
+  [1] dlopen(s::String, flags::UInt32; throw_error::Bool)
+    @ Base.Libc.Libdl ./libdl.jl:117
+  [2] dlopen(s::String, flags::UInt32)
+    @ Base.Libc.Libdl ./libdl.jl:116
+  [3] macro expansion
+    @ ~/.julia/packages/JLLWrappers/GfYNv/src/products/library_generators.jl:63 [inlined]
+  [4] __init__()
+    @ GDAL_jll ~/.julia/packages/GDAL_jll/fyGA8/src/wrappers/x86_64-linux-gnu-cxx11.jl:78
+  [5] register_restored_modules(sv::Core.SimpleVector, pkg::Base.PkgId, path::String)
+    @ Base ./loading.jl:1115
+  [6] _include_from_serialized(pkg::Base.PkgId, path::String, ocachepath::String, depmods::Vector{Any})
+    @ Base ./loading.jl:1061
+  [7] _require_search_from_serialized
+Execution halted
+Julia exit.
