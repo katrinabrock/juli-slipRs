@@ -71,6 +71,8 @@ Stacktrace:
 Execution halted
 ```
 
+Also...unloading the R library that was loaded first does not solve the problem so I couldn't find a way to cleanly switch a session from the state where `terra` is working to the state where `Circuitscape` is working and vice versa...so the only thing to do would be to close R and re-open fresh to switch between these two libraries.
+
 Turns out I'm not the only one to have come down this brick road:
 - [Similar Problem with terra and GeoArrays](https://stackoverflow.com/questions/78865514/)
 - [Similar Problem with ResistanceGA and Circuitscape](https://discourse.julialang.org/t/julia-can-not-find-libtiff-r-4-4-0-julia-1-9-3-when-running-resistancega-in-r/124291)
