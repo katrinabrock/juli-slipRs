@@ -1,9 +1,13 @@
+# Julia and R spatial library incompatibilities
+
 Hello! Thank you for your interest in this investigation. 
 
 ## Goals
 
-[x] Find a way to run `Circuitscape.jl` via `JuliaCall` and `terra` and/or `sf` in the same R session. (It's magic.R)
-[ ] Figure out the root cause...or at least the exactly what program or package is to blame so that it can be raised to the appropariate developers.
+- [x] Find a way to run `Circuitscape.jl` via `JuliaCall` and `terra` and/or `sf` in the same R session. (It's magic.R)
+- [ ] Figure out the root cause...or at least the exactly what program or package is to blame so that it can be raised to the appropariate developers.
+
+btw - This issue impacts both `terra` and `sf` which both wrap `GDAL`. Likely impacts more packages on the julia side as well.
 
 ## Short version
 
