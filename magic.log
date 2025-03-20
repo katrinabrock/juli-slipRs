@@ -12,15 +12,15 @@ name        : elevation
 min value   :       141 
 max value   :       547 
 NULL
-[ Info: 2025-03-20 16:32:12 : Precision used: Double
-┌ Info: 2025-03-20 16:32:14 : Circuitscape.jl starts counting nodes from 1, 
+[ Info: 2025-03-20 20:26:35 : Precision used: Double
+┌ Info: 2025-03-20 20:26:36 : Circuitscape.jl starts counting nodes from 1, 
 └ not 0. This will be reflected in the outputs.
-[ Info: 2025-03-20 16:32:15 : Graph has 4 nodes and 1 connected components
-[ Info: 2025-03-20 16:32:15 : Time taken to construct graph laplacian = 0.045825638
-[ Info: 2025-03-20 16:32:15 : Solver used: AMG accelerated by CG
-[ Info: 2025-03-20 16:32:18 : Time taken to construct preconditioner = 0.437926353 seconds
-[ Info: 2025-03-20 16:32:18 : Time taken to solve linear system = 2.993e-5 seconds
-[ Info: 2025-03-20 16:32:19 : Time taken to complete job = 6.392081722
+[ Info: 2025-03-20 20:26:37 : Graph has 4 nodes and 1 connected components
+[ Info: 2025-03-20 20:26:37 : Time taken to construct graph laplacian = 0.046231307
+[ Info: 2025-03-20 20:26:37 : Solver used: AMG accelerated by CG
+[ Info: 2025-03-20 20:26:41 : Time taken to construct preconditioner = 0.501753612 seconds
+[ Info: 2025-03-20 20:26:41 : Time taken to solve linear system = 4.0258e-5 seconds
+[ Info: 2025-03-20 20:26:41 : Time taken to complete job = 6.424933765
      [,1] [,2]
 [1,]    1   75
 [2,]    2   50
