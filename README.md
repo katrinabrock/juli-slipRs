@@ -2,7 +2,7 @@
 
 Hello! Thank you for your interest in this investigation. 
 
-If you're looking for solution [this](#update) is my current best stake of knowledge.
+If you're looking for solution the ["update" section](#update) at the end of this doc is my current best stake of knowledge.
 
 ## Goals
 
@@ -12,8 +12,8 @@ If you're looking for solution [this](#update) is my current best stake of knowl
 
 Next steps
 
-- [] Generalize the solution 
-- [] Figure otu why magic.R works
+- [ ] Generalize the solution 
+- [ ] Figure out why magic.R works
 
 
 
