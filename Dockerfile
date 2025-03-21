@@ -33,13 +33,13 @@ RUN install2.r --error --ncpus -1 \
 
 
 
+#RUN ["R", "-e", "JuliaCall::install_julia(); JuliaCall::julia_setup(); JuliaCall::julia_install_package('GDAL_jll')"]
 RUN ["R", "-e", "JuliaCall::install_julia(); JuliaCall::julia_setup(); JuliaCall::julia_install_package('Circuitscape')"]
 
-
-ADD terra_first.R /opt/terra_first.R
-ADD julia_first.R /opt/julia_first.R
-ADD magic.R /opt/magic.R
-
 WORKDIR /opt
+ADD terra_first.R terra_first.R
+ADD julia_first.R julia_first.R
+ADD magic.R magic.R
+ADD gdal_overrides.R gdal_overrides.R
 
 ENTRYPOINT [ "Rscript" ]
