@@ -107,3 +107,11 @@ tl;dr
 - the path is where where the binary (`.so` file) that you want julia to use is located. This will probably be one of the directories in your `LD_LIBRARY` path (run `Sys.getenv('LD_LIBRARY_PATH')`). If you know the exact name of the binary you're looking for (e.g. libxml2.so), you can run gcc to find the path like: `system('gcc --print-file-name=libxml2.so')`.
 - The path in the toml file *must* have a folder named `lib` inside it and the binary should be inside that lib folder. (e.g. if your so file is `/usr/local/lib/XXX.so` you need to just put `/usr/local` in the toml file, not `/usr/local/lib`.) If your binary is in a folder not named lib, you can create a symlink named lib somewhere else and then put the path of that symlink in the toml file. This is what I've done in `gdal_overrides.R` in this repo.
 - the `Overrides.toml` file goes in `~/.julia/artifacts`
+
+> [!NOTE]
+> If you are looking to implement this, you should know that Julia JLL versions often do not correspond exactly to the upstream library version.
+> An example of such inconsistent version is in the [GDAL_jll build_tarballs script here](https://github.com/JuliaPackaging/Yggdrasil/blob/4499d58a12fc3a78fa500b8809f943e68f7eec9f/G/GDAL/build_tarballs.jl#L5-L17).
+> 
+> All JLLs are built via the scripts in https://github.com/JuliaPackaging/Yggdrasil, and hosted in the JuliaBinaryWrappers organization.
+> For context, a "JLL" is simply a Julia package that is a bare wrapper for a binary.  They are all hosted in the JuliaBinaryWrappers github
+> organization, and any JLLL will have the form `$(libname)_jll.jl`, so `GDAL_jll` or `PROJ_jll` but also `libspatialite_jll` etc.
