@@ -26,9 +26,9 @@ Next steps
 
 See [run_all.sh](.run_all.sh).
 
-- `julia_first.R` demostrates that after loading `Circuitscape`, using `terra` fails
-- `terra_first.R` demostrates that after loading `terra`, loading `Circuitscape` fails
-- `magic.R` demostrates that if you first load one of the .so files loaded by `terra` and then attempt to load `Circuitscape` three times, the 3rd attempt succeeds and both packages work fine after that.
+- `julia_first.R` demonstrates that after loading `Circuitscape`, using `terra` fails
+- `terra_first.R` demonstrates that after loading `terra`, loading `Circuitscape` fails
+- `magic.R` demonstrates that if you first load one of the .so files loaded by `terra` and then attempt to load `Circuitscape` three times, the 3rd attempt succeeds and both packages work fine after that.
 - `gdal_overrides.R` Actually fixes the issue (for a particular combo of R-package, julia package, OS) by telling Julia to use gdal and xml2 binaries that c is already using. 
 
 
@@ -38,7 +38,7 @@ An attempt to use [Circuitscape.jl](https://github.com/Circuitscape/Circuitscape
 
 "You Should be able to call Circuitscape from R by using the JuliaCall R package." States the documentation. Makes sense to me!
 
-Indeed it does... Once I've worked around [this issue](https://github.com/JuliaInterop/JuliaCall/issues/238) (doesn't impact the dockerfile), the following works splendedly:
+Indeed it does... Once I've worked around [this issue](https://github.com/JuliaInterop/JuliaCall/issues/238) (doesn't impact the dockerfile), the following works splendidly:
 ```{r}
 # Set everything up
 JuliaCall::julia_setup()
@@ -90,8 +90,9 @@ Also...unloading the R library that was loaded first does not solve the problem 
 Turns out I'm not the only one to have come down this brick road:
 - [Similar Problem with terra and GeoArrays](https://stackoverflow.com/questions/78865514/)
 - [Similar Problem with ResistanceGA and Circuitscape](https://discourse.julialang.org/t/julia-can-not-find-libtiff-r-4-4-0-julia-1-9-3-when-running-resistancega-in-r/124291)
+- [Similar Problem with patter and Patter.jl](https://github.com/edwardlavender/patter/issues/55#issuecomment-3922102927)
 
-After spending many hours (mostly fruitlessly) trying to understand how library linking works and how it interacts with R and Julia, I looked down at my console and saw both libraries working! It didn't quite make sense because all I did in that session was basicall load the two incompatible libraries over and over in different orders. Somehow that worked. I distilled the reproduceable workaround down as much as I good, which is what you'll find in `magic.R`. Basically, load the rgdal c(pp?) library, then make three attempts to load `Circuitscape`. Magically the 3rd one works and you can use it alongside R spatial packages like `sf` and `terra` to your hearts content.
+After spending many hours (mostly fruitlessly) trying to understand how library linking works and how it interacts with R and Julia, I looked down at my console and saw both libraries working! It didn't quite make sense because all I did in that session was basically load the two incompatible libraries over and over in different orders. Somehow that worked. I distilled the reproducible workaround down as much as I good, which is what you'll find in `magic.R`. Basically, load the rgdal c(pp?) library, then make three attempts to load `Circuitscape`. Magically the 3rd one works and you can use it alongside R spatial packages like `sf` and `terra` to your hearts content.
 
 But whyyyy?? What exactly is the library that both need and what versions do each need? Or is it just some kind LD_PATH related problem? Why does this magical combination work? Is there any way to make it work on the first try?
 
@@ -103,10 +104,13 @@ Got a better solution! Had a lovely slack conversation with @asinghvi17 who sugg
 
 tl;dr
 - not sure the best way to pre-emptively figure out what overrides you need, but you can trial and error add the ones that show up as "can't find XXX" in the error messages
-- the uuid comes from XXX_jl package where XX is the binary that needs to get overridden. This is the uuid of that _jl package itself
-- the path is where where the binary (`.so` file) that you want julia to use is located. This will probably be one of the directories in your `LD_LIBRARY` path (run `Sys.getenv('LD_LIBRARY_PATH')`). If you know the exact name of the binary you're looking for (e.g. libxml2.so), you can run gcc to find the path like: `system('gcc --print-file-name=libxml2.so')`.
-- The path in the toml file *must* have a folder named `lib` inside it and the binary should be inside that lib folder. (e.g. if your so file is `/usr/local/lib/XXX.so` you need to just put `/usr/local` in the toml file, not `/usr/local/lib`.) If your binary is in a folder not named lib, you can create a symlink named lib somewhere else and then put the path of that symlink in the toml file. This is what I've done in `gdal_overrides.R` in this repo.
+- the uuid comes from XXX_jl package where XX is the binary that needs to get overridden. This is the uuid of that _jl package itself. For example, for gdal, we override [GDAL_jll](https://github.com/JuliaBinaryWrappers/GDAL_jll.jl), specifying the uuid given at the top of the [Project.toml](https://github.com/JuliaBinaryWrappers/GDAL_jll.jl/blob/main/Project.toml) file.
+- the path is where where the binary (`.so` file) that you want julia to use is located: 
+    - On Linux, this will probably be one of the directories in your `LD_LIBRARY` path (run `Sys.getenv('LD_LIBRARY_PATH')`). If you know the exact name of the binary you're looking for (e.g. libxml2.so), you can run gcc to find the path like: `system('gcc --print-file-name=libxml2.so')`.
+    - On MacOS, the binaries are probably located in `/usr/lib` or `/opt/homebrew/Cellar/`. You can manually search those directories for a specific binary (e.g., `sqlite3`) or, if `pkg-config` is installed, use `system('pkg-config --variable=libdir sqlite3')`. (You can install `pkg-config` via homebrew with `brew install pkg-config`.)
+- The path in the toml file *must* have a folder named `lib` inside it and the binary should be inside that lib folder. (e.g. if your so file is `/usr/local/lib/XXX.so` you need to just put `/usr/local` in the toml file, not `/usr/local/lib`.) If your binary is in a folder not named lib, you can create a symlink named lib somewhere else and then put the path of that symlink in the toml file. This is what I've done in `gdal_overrides.R` in this repo. For another example `Overrides.toml` file for a different project, see this [issue](https://github.com/edwardlavender/patter/issues/55#issuecomment-3922102927). 
 - the `Overrides.toml` file goes in `~/.julia/artifacts`
+- For a complete worked example for another project, see [here](https://github.com/edwardlavender/patter/issues/55#issuecomment-3922102927)
 
 > [!NOTE]
 > If you are looking to implement this, you should know that Julia JLL versions often do not correspond exactly to the upstream library version.
